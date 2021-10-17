@@ -5,6 +5,3 @@ chmod a+x jq-1.5/jq-osx-amd64
 
 wget -O - https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 > jq-1.5/jq-linux64
 chmod a+x jq-1.5/jq-linux64
-
-rm jq-linux64
-rm jq-osx-amd64

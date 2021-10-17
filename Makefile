@@ -33,11 +33,19 @@ SHELL:=env PATH=$(subst $(SPACE),\$(SPACE),$(PATH)) $(SHELL)
 # unit tests (hermetic)
 unit:
 	hack/make-rules/go-test/unit.sh
+
+pytests:
+	make -C kettle/ test
+	make -C metrics/
+	make -C experiment/
+	make -C hack/
+	make -C releng/
+
 # integration tests
 # integration:
 #	hack/make-rules/go-test/integration.sh
 # all tests
-test: unit
+test: pytests
 ################################################################################
 # ================================= Cleanup ====================================
 # standard cleanup target

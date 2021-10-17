@@ -68,7 +68,9 @@ endif
 # standard "make" target -> builds
 all: build
 # builds metrics in a container, outputs to $(OUT_DIR)
-metrics: requirements bigquery bigquery-test
+
+# Not including bigquery (broken)
+metrics: requirements bigquery-test
 	echo "Completed Metrics!"
 
 requirements:
