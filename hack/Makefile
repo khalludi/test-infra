@@ -61,7 +61,7 @@ HACK_BINARY_NAME?=hack
 # all: build
 # builds hack in a container, outputs to $(OUT_DIR)
 hack:
-	docker build -t $(HACK_BINARY_NAME) .
+	python3 coalesce_test.py
 # alias for building hack
 build: hack
 # use: make install INSTALL_DIR=/usr/local/bin
@@ -77,13 +77,13 @@ build: hack
 # integration:
 # 	MODE=integration hack/make-rules/test.sh
 # all tests
-test:
-	docker run $(HACK_BINARY_NAME)
+# test:
+# 	docker run $(HACK_BINARY_NAME)
 ################################################################################
 # ================================= Cleanup ====================================
 # standard cleanup target
-clean:
-	docker rmi -f $(HACK_BINARY_NAME)
+# clean:
+# 	docker rmi -f $(HACK_BINARY_NAME)
 ################################################################################
 # ============================== Auto-Update ===================================
 # update generated code, gofmt, etc.
