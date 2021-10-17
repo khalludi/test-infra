@@ -1,0 +1,114 @@
+# Copyright 2019 The Kubernetes Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Old-skool build tools.
+# Simple makefile to build experiment quickly and reproducibly
+#
+# Common uses:
+# - installing experiment: `make install INSTALL_DIR=$HOME/go/bin`
+# - building: `make build`
+# - cleaning up and starting over: `make clean`
+#
+################################################################################
+# ========================== Capture Environment ===============================
+# get the repo root and output path
+REPO_ROOT:=${CURDIR}
+OUT_DIR=$(REPO_ROOT)/bin
+# record the source commit in the binary, overridable
+COMMIT?=$(shell git rev-parse HEAD 2>/dev/null)
+################################################################################
+# ========================= Setup Go With Gimme ================================
+# go version to use for build etc.
+# setup correct go version with gimme
+# PATH:=$(shell . experiment/build/setup-go.sh && echo "$${PATH}")
+# go1.9+ can autodetect GOROOT, but if some other tool sets it ...
+# GOROOT:=
+# enable modules
+# GO111MODULE=on
+# disable CGO by default for static binaries
+# CGO_ENABLED=0
+# export PATH GOROOT GO111MODULE CGO_ENABLED
+# work around broken PATH export
+# SPACE:=$(subst ,, )
+# SHELL:=env PATH=$(subst $(SPACE),\$(SPACE),$(PATH)) $(SHELL)
+################################################################################
+# ============================== OPTIONS =======================================
+# install tool
+# INSTALL?=install
+# install will place binaries here, by default attempts to mimic go install
+# INSTALL_DIR?=$(shell experiment/build/goinstalldir.sh)
+# the output binary name, overridden when cross compiling
+EXPERIMENT_BINARY_NAME?=experiment
+YAML_CONFIG_PATH=test_config.yaml
+OUTPUT_DIR=../config/jobs/kubernetes/generated/
+TEST_GRID_OUTPUT_PATH=../config/testgrids/generated-test-config.yaml
+# build flags for the experiment binary
+# - reproducible builds: -trimpath and -ldflags=-buildid=
+# - smaller binaries: -w (trim debugger data, but not panics)
+# - metadata: -X=... to bake in git commit
+# KIND_BUILD_FLAGS?=-trimpath -ldflags="-buildid= -w -X=sigs.k8s.io/experiment/pkg/cmd/experiment/version.GitCommit=$(COMMIT)"
+################################################################################
+# ================================= Building ===================================
+# standard "make" target -> builds
+all: build
+# builds experiment in a container, outputs to $(OUT_DIR)
+experiment:
+	pip3 install requests
+	python3 flakedetector.py
+# alias for building experiment
+build: experiment
+# use: make install INSTALL_DIR=/usr/local/bin
+# install: build
+# 	$(INSTALL) -d $(INSTALL_DIR)
+# 	$(INSTALL) "$(OUT_DIR)/$(EXPERIMENT_BINARY_NAME)" "$(INSTALL_DIR)/$(EXPERIMENT_BINARY_NAME)"
+################################################################################
+# ================================= Testing ====================================
+# unit tests (hermetic)
+# unit:
+# 	MODE=unit experiment/make-rules/test.sh
+# integration tests
+# integration:
+# 	MODE=integration experiment/make-rules/test.sh
+# all tests
+# test:
+# 	docker run $(EXPERIMENT_BINARY_NAME)
+################################################################################
+# ================================= Cleanup ====================================
+# standard cleanup target
+# clean:
+# 	docker rmi -f $(experiment_BINARY_NAME)
+################################################################################
+# ============================== Auto-Update ===================================
+# update generated code, gofmt, etc.
+# update:
+# 	experiment/make-rules/update/all.sh
+# update generated code
+# generate:
+# 	experiment/make-rules/update/generated.sh
+# gofmt
+# gofmt:
+# 	experiment/make-rules/update/gofmt.sh
+################################################################################
+# ================================== Linting ===================================
+# run linters, ensure generated code, etc.
+# verify:
+# 	experiment/make-rules/verify/all.sh
+# code linters
+# lint:
+# 	experiment/make-rules/verify/lint.sh
+# shell linter
+# shellcheck:
+# 	experiment/make-rules/verify/shellcheck.sh
+#################################################################################
+.PHONY: all experiment build install unit clean update generate gofmt verify lint shellcheck
