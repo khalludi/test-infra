@@ -374,7 +374,6 @@ nodeK8sVersions:
     prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-master
   beta:
     args:
-<<<<<<< HEAD
     - --repo=k8s.io/kubernetes=release-1.22
     prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-1.22
   stable1:
@@ -390,22 +389,6 @@ nodeK8sVersions:
     - --repo=k8s.io/kubernetes=release-1.19
     prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-1.19
 
-=======
-    - --repo=k8s.io/kubernetes=release-1.31
-    prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-1.31
-  stable1:
-    args:
-    - --repo=k8s.io/kubernetes=release-1.30
-    prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-1.30
-  stable2:
-    args:
-    - --repo=k8s.io/kubernetes=release-1.29
-    prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-1.29
-  stable3:
-    args:
-    - --repo=k8s.io/kubernetes=release-1.28
-    prowImage: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-1.28
->>>>>>> Added Makefile for releng
 nodeTestSuites:
   default:
     args:

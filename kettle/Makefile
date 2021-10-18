@@ -48,7 +48,11 @@ BUCKETS_CONFIG=buckets.yaml
 SCHEMA_JSON=schema.json
 
 # Not include make-db-test which currently fails
+<<<<<<< HEAD
 test: make-json-test model-test stream-test
+=======
+test: requirements make-json-test model-test stream-test
+>>>>>>> f838996f967a2099036a1ce6383e2191eab6d32b
 	echo "Ran all Kettle Binaries and Tests"
 
 requirements:
