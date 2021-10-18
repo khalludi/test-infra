@@ -45,7 +45,7 @@ PROW_CONFIG_TEMPLATE = """
       containers:
       - args:
         env:
-        image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-master
+        image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-master
         resources:
           requests:
             cpu: 1000m
@@ -418,6 +418,11 @@ if __name__ == '__main__':
         help='Path to testgrid output file',
         default='config/testgrids/generated-test-config.yaml')
     ARGS = PARSER.parse_args()
+
+    if not os.path.exists(ARGS.output_dir):
+        ARGS.output_dir = "../config/jobs/kubernetes/generated/"
+    if not os.path.exists(ARGS.testgrid_output_path):
+        ARGS.testgrid_output_path = "../config/testgrids/generated-test-config.yaml"
 
     main(
         ARGS.yaml_config_path,

@@ -1,14 +1,14 @@
 periodics:
-- name: ci-gcp-compute-persistent-disk-csi-driver-release-0-7-k8s-master-integration
+- name: ci-gcp-compute-persistent-disk-csi-driver-release-1-3-k8s-master-integration
   interval: 4h
   labels:
     preset-service-account: "true"
     preset-dind-enabled: "true"
   spec:
     containers:
-    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-master
+    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-master
       args:
-      - "--repo=sigs.k8s.io/gcp-compute-persistent-disk-csi-driver=release-0.7"
+      - "--repo=sigs.k8s.io/gcp-compute-persistent-disk-csi-driver=release-1.3"
       - "--root=/go/src"
       - "--upload=gs://kubernetes-jenkins/logs"
       - "--clean"
@@ -18,7 +18,7 @@ periodics:
       - "test/run-k8s-integration-ci.sh"
       env:
       - name: GCE_PD_OVERLAY_NAME
-        value: "stable"
+        value: "stable-master"
       - name: GCE_PD_DO_DRIVER_BUILD
         value: "false"
       # docker-in-docker needs privileged mode
@@ -32,9 +32,9 @@ periodics:
         cpu: 2000m
   annotations:
     testgrid-dashboards: provider-gcp-compute-persistent-disk-csi-driver
-    testgrid-tab-name: Kubernetes Master Driver Release 0.7
+    testgrid-tab-name: Kubernetes Master Driver Release 1.3
     testgrid-alert-email: gke-managed-storage-alerts@google.com
-    description: Kubernetes Integration tests for Kubernetes Master branch and Driver Release 0.7
+    description: Kubernetes Integration tests for Kubernetes Master branch and Driver Release 1.3
 - name: ci-gcp-compute-persistent-disk-csi-driver-latest-k8s-master-integration
   interval: 4h
   labels:
@@ -42,13 +42,13 @@ periodics:
     preset-dind-enabled: "true"
   spec:
     containers:
-    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-master
+    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-master
       args:
       - "--repo=sigs.k8s.io/gcp-compute-persistent-disk-csi-driver"
       - "--root=/go/src"
       - "--upload=gs://kubernetes-jenkins/logs"
       - "--clean"
-      - "--timeout=120" # Minutes (usually runs take 1:15)
+      - "--timeout=180" # Minutes (120m times out)
       - "--scenario=execute"
       - "--" # end bootstrap args, scenario args below
       - "test/run-k8s-integration-ci.sh"
@@ -78,7 +78,7 @@ periodics:
     preset-dind-enabled: "true"
   spec:
     containers:
-    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-master
+    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-master
       args:
       - "--repo=sigs.k8s.io/gcp-compute-persistent-disk-csi-driver"
       - "--root=/go/src"
@@ -115,7 +115,7 @@ periodics:
     preset-dind-enabled: "true"
   spec:
     containers:
-    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211012-ba1fa86530-master
+    - image: gcr.io/k8s-staging-test-infra/kubekins-e2e:v20211014-7ca1952a94-master
       args:
       - "--repo=sigs.k8s.io/gcp-compute-persistent-disk-csi-driver"
       - "--root=/go/src"
