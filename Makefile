@@ -36,36 +36,15 @@ unit:
 
 pytests:
 	make -C kettle/ test
-<<<<<<< HEAD
 	make -C metrics/ test
 	make -C hack/ test
 	make -C releng/ test
-=======
-<<<<<<< HEAD
-	make -C metrics/ test
-	make -C hack/ test
-	make -C releng/ test
-=======
-	make -C metrics/
-	make -C experiment/
-	make -C hack/
-	make -C releng/
->>>>>>> f838996f967a2099036a1ce6383e2191eab6d32b
->>>>>>> 32d4d5a7f6ecf982c3bcffe0cfae5f9a637cc570
 
 # integration tests
 # integration:
 #	hack/make-rules/go-test/integration.sh
 # all tests
-<<<<<<< HEAD
 test: unit pytests
-=======
-<<<<<<< HEAD
-test: unit pytests
-=======
-test: pytests
->>>>>>> f838996f967a2099036a1ce6383e2191eab6d32b
->>>>>>> 32d4d5a7f6ecf982c3bcffe0cfae5f9a637cc570
 ################################################################################
 # ================================= Cleanup ====================================
 # standard cleanup target
